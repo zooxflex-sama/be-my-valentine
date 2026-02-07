@@ -18,11 +18,11 @@
             touch-action: manipulation;
         }
         .hidden { display: none !important; }
-        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.1); } 100% { transform: scale(1); } }
+        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
 
         /* ENVELOPE SCREEN */
-        #envelope-container { text-align: center; cursor: pointer; }
-        #envelope-img { width: 160px; animation: pulse 1.5s infinite ease-in-out; border-radius: 15px; }
+        #envelope-container { text-align: center; cursor: pointer; padding: 20px; }
+        #envelope-img { width: 140px; animation: pulse 1.5s infinite ease-in-out; }
 
         /* LETTER WINDOW */
         .letter-window {
@@ -38,11 +38,10 @@
         }
 
         #cat-gif { 
-            width: 200px; 
-            height: 200px; 
+            width: 180px; 
+            height: 180px; 
             object-fit: contain;
             margin: 10px 0; 
-            border-radius: 10px;
         }
 
         h1 { font-size: 1.4rem; color: #333; margin-bottom: 10px; }
@@ -51,7 +50,7 @@
             display: flex; 
             justify-content: center; 
             gap: 15px; 
-            margin-top: 20px;
+            margin-top: 15px;
             min-height: 60px;
         }
 
@@ -71,13 +70,14 @@
             color: white; 
             position: absolute; 
             transition: all 0.1s ease-out;
+            white-space: nowrap;
         }
     </style>
 </head>
 <body>
 
     <div id="envelope-container">
-        <img src="https://i.imgur.com/vHdf003.gif" id="envelope-img">
+        <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Love%20Letter.png" id="envelope-img">
         <p>Keshie, you have a message!<br><b>(Tap to open)</b></p>
     </div>
 
@@ -85,7 +85,7 @@
         <div class="letter-window">
             <h1 id="question">Keshie! Will you be my Valentine?</h1>
             
-            <img id="cat-gif" src="https://i.imgur.com/W2oE0vA.gif">
+            <img id="cat-gif" src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Smilies/Cat%20with%20Heart-Eyes.png">
             
             <div class="button-group">
                 <button id="yes-btn">YES</button>
@@ -93,7 +93,7 @@
             </div>
 
             <div id="final-message" class="hidden">
-                <h2 style="color: #ff4d6d;">Yippie! ❤️<br>It's a date!<br><span style="font-size: 0.9rem;">Hussar Grill or Miyako Sushi? (Your choice!)</span><br>See you at 6pm!</h2>
+                <h2 style="color: #ff4d6d;">Yippie! ❤️<br>It's a date! See you 6pm @ Hussar Grill or Miyako Sushi!<br>See you then!</h2>
             </div>
         </div>
     </div>
@@ -106,8 +106,8 @@
         const catGif = document.getElementById('cat-gif');
         const finalMsg = document.getElementById('final-message');
 
-        // New Stable Imgur Link for Happy Cat
-        const happyCat = "https://i.imgur.com/pZ6mI7K.gif";
+        // Original Smiling Cat Emoji for Success
+        const happyCat = "https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Smilies/Smiling%20Cat%20with%20Heart-Eyes.png";
         const preloader = new Image();
         preloader.src = happyCat;
 
@@ -115,7 +115,7 @@
             env.style.display = 'none';
             letCont.classList.remove('hidden');
             
-            // Set initial position of NO button
+            // Set initial position of NO button next to YES
             const yesRect = yesBtn.getBoundingClientRect();
             const winRect = document.querySelector('.letter-window').getBoundingClientRect();
             noBtn.style.left = (yesRect.right - winRect.left + 10) + "px";
@@ -134,7 +134,10 @@
         }
 
         noBtn.addEventListener('mouseover', moveNo);
-        noBtn.addEventListener('touchstart', (e) => { e.preventDefault(); moveNo(); });
+        noBtn.addEventListener('touchstart', (e) => { 
+            e.preventDefault(); 
+            moveNo(); 
+        });
 
         yesBtn.addEventListener('click', () => {
             document.getElementById('question').style.display = 'none';
