@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Be My Valentine?</title>
+    <title>Surprise! ✨</title>
     <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400;700&display=swap" rel="stylesheet">
     <style>
         body {
@@ -24,11 +24,9 @@
         }
         .hidden { display: none !important; }
 
-        /* ENVELOPE SCREEN */
         #envelope-container { text-align: center; cursor: pointer; padding: 20px; }
         #envelope { width: 140px; animation: pulse 1.5s infinite ease-in-out; }
 
-        /* LETTER WINDOW */
         .letter-window {
             background: white;
             padding: 25px;
@@ -41,12 +39,13 @@
             position: relative;
         }
 
-        /* Animated GIFs */
+        /* GIF size optimization */
         #cat-img { 
-            width: 200px; 
-            height: 200px; 
+            width: 180px; 
+            height: 180px; 
             object-fit: contain;
-            margin: 10px 0; 
+            margin: 10px 0;
+            background-color: #fff; /* Prevents gray flicker */
         }
 
         h1 { font-size: 1.4rem; color: #333; margin-bottom: 10px; }
@@ -76,15 +75,15 @@
 <body>
 
     <div id="envelope-container">
-        <img src="https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHpueXp6bm94ZXB6Z3ZueHh6eHh6eHh6eHh6eHh6eHh6eHh6JmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1z/c76IJLufpNUMvULn59/giphy.gif" id="envelope">
-        <p>A secret letter for you...<br><b>(Tap to open)</b></p>
+        <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Love%20Letter.png" id="envelope">
+        <p>You have a special message!<br><b>(Tap to open)</b></p>
     </div>
 
     <div id="letter-container" class="hidden">
         <div class="letter-window">
             <h1 id="question">Keshie! Will you be my Valentine?</h1>
             
-            <img id="cat-img" src="https://media.tenor.com/9v4M_uK2j30AAAAM/peach-goma.gif" alt="Cute Cat Asking">
+            <img id="cat-img" src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Smilies/Cat%20with%20Heart-Eyes.png" alt="Cute Cat">
             
             <div class="button-group">
                 <button id="yes-btn">YES</button>
@@ -92,7 +91,7 @@
             </div>
 
             <div id="final-message" class="hidden">
-                <h2 style="color: #ff4d6d;">Yippie! ❤️<br>See you 6pm at Hussar Grill or Miyako Sushi! Your Choice!</h2>
+                <h2 style="color: #ff4d6d;">Yippie! ❤️<br>It's a date! See 6pm @ Hussar Grill or Miyako Sushi (Your Choice!)</h2>
             </div>
         </div>
     </div>
@@ -107,11 +106,15 @@
         const finalMsg = document.getElementById('final-message');
         const btnGroup = document.querySelector('.button-group');
 
+        // Preload the "Success" image so there's no lag
+        const successImg = new Image();
+        successImg.src = "https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Smilies/Smiling%20Cat%20with%20Heart-Eyes.png";
+
         env.addEventListener('click', () => {
             env.style.display = 'none';
             letCont.classList.remove('hidden');
             
-            // Initial NO button placement
+            // Set initial position
             const yesRect = yesBtn.getBoundingClientRect();
             const containerRect = letCont.querySelector('.letter-window').getBoundingClientRect();
             noBtn.style.left = (yesRect.right - containerRect.left + 10) + "px";
@@ -140,8 +143,7 @@
             btnGroup.style.display = 'none';
             noBtn.style.display = 'none';
             finalMsg.classList.remove('hidden');
-            // Happy Dancing Cat GIF
-            catImg.src = "https://media.tenor.com/9at7_75m998AAAAM/happy-cat.gif";
+            catImg.src = successImg.src;
         });
     </script>
 </body>
