@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Keshie! Be My Valentine?</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Be My Valentine?</title>
     <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400;700&display=swap" rel="stylesheet">
     <style>
         body {
@@ -15,67 +15,88 @@
             height: 100vh;
             margin: 0;
             overflow: hidden;
+            touch-action: manipulation; /* Prevents zooming on mobile button taps */
         }
         @keyframes pulse {
             0% { transform: scale(1); }
-            50% { transform: scale(1.1); }
+            50% { transform: scale(1.05); }
             100% { transform: scale(1); }
         }
         .hidden { display: none !important; }
-        #envelope-container { text-align: center; cursor: pointer; }
-        #envelope { width: 180px; animation: pulse 1.5s infinite ease-in-out; }
-        
+
+        /* ENVELOPE SCREEN */
+        #envelope-container { text-align: center; cursor: pointer; padding: 20px; }
+        #envelope { width: 150px; animation: pulse 1.5s infinite ease-in-out; }
+
+        /* LETTER WINDOW */
         .letter-window {
             background: white;
-            padding: 30px;
+            padding: 20px;
             border-radius: 20px;
             border: 6px solid #ff4d6d;
             text-align: center;
-            box-shadow: 0 10px 0 #ff4d6d;
-            width: 320px;
+            box-shadow: 0 8px 0 #ff4d6d;
+            width: 85vw; /* Responsive width for mobile */
+            max-width: 350px;
             position: relative;
         }
-        /* Stable placeholder images */
-        #cat-img { width: 180px; height: 180px; object-fit: contain; margin: 15px 0; border-radius: 10px; }
-        
+
+        #cat-img { 
+            width: 100%; 
+            max-width: 200px; 
+            height: auto; 
+            margin: 10px 0; 
+        }
+
+        h1 { font-size: 1.5rem; color: #333; }
+
+        /* BUTTONS */
         .button-group { 
             display: flex; 
             justify-content: center; 
-            gap: 20px; 
+            align-items: center;
+            gap: 15px; 
             margin-top: 20px;
-            height: 50px;
+            min-height: 60px;
         }
-        
+
         button {
             font-family: 'Pixelify Sans', sans-serif;
-            font-size: 18px;
-            padding: 8px 25px;
+            font-size: 1.2rem;
+            padding: 12px 25px;
             cursor: pointer;
             border: none;
-            border-radius: 8px;
-            transition: transform 0.1s ease;
+            border-radius: 12px;
+            z-index: 10;
         }
-        #yes-btn { background-color: #4CAF50; color: white; }
+
+        #yes-btn { 
+            background-color: #4CAF50; 
+            color: white; 
+            position: relative; /* Fixed in place */
+        }
+
         #no-btn { 
             background-color: #f44336; 
             color: white; 
-            position: absolute; /* Essential for moving */
-            transition: all 0.2s ease;
+            position: absolute; /* Allows it to move */
+            transition: all 0.15s ease-out;
+            white-space: nowrap;
         }
-        #final-message { color: #ff4d6d; }
     </style>
 </head>
 <body>
 
     <div id="envelope-container">
-        <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Love%20Letter.png" id="envelope" alt="Love Letter">
-        <p>You have a message! <br>(Click to open)</p>
+        <img src="https://api.iconify.design/noto:love-letter.svg" id="envelope">
+        <p>A message for you...<br><b>Tap to open</b></p>
     </div>
 
     <div id="letter-container" class="hidden">
         <div class="letter-window">
             <h1 id="question">Keshie! Will you be my Valentine?</h1>
-            <img id="cat-img" src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Smilies/Cat%20with%20Heart-Eyes.png" alt="Cute Cat">
+            
+            <img id="cat-img" src="https://api.iconify.design/noto:smiling-cat-with-heart-eyes.svg">
             
             <div class="button-group">
                 <button id="yes-btn">YES</button>
@@ -83,7 +104,7 @@
             </div>
 
             <div id="final-message" class="hidden">
-                <h2>Yay! ❤️<br>See you at 6:00PM! at Hussar Grill or Miyako Sushi! (Your,Choice!)</h2>
+                <h2 style="color: #ff4d6d;">Yippie! ❤️<br>See you at 6:00 PM, at Hussar Grill or Miyako Sushi(Your Choice!)!</h2>
             </div>
         </div>
     </div>
@@ -102,27 +123,41 @@
         env.addEventListener('click', () => {
             env.style.display = 'none';
             letCont.classList.remove('hidden');
+            
+            // Set initial position of NO button next to YES button
+            const yesRect = yesBtn.getBoundingClientRect();
+            noBtn.style.left = (yesRect.right - letCont.getBoundingClientRect().left + 20) + "px";
+            noBtn.style.top = (yesRect.top - letCont.getBoundingClientRect().top) + "px";
         });
 
-        // 2. RUNAWAY NO BUTTON LOGIC
-        noBtn.addEventListener('mouseover', () => {
-            // Get random position within the screen, but stay away from edges
-            const padding = 50;
-            const x = Math.random() * (window.innerWidth - noBtn.offsetWidth - padding);
-            const y = Math.random() * (window.innerHeight - noBtn.offsetHeight - padding);
+        // 2. RUNAWAY NO BUTTON (Works for Mouse and Touch)
+        function moveNoButton() {
+            // Calculate a random position that stays WITHIN the phone screen
+            const maxX = window.innerWidth - noBtn.offsetWidth - 20;
+            const maxY = window.innerHeight - noBtn.offsetHeight - 20;
             
-            noBtn.style.left = x + 'px';
-            noBtn.style.top = y + 'px';
+            const randomX = Math.max(20, Math.floor(Math.random() * maxX));
+            const randomY = Math.max(20, Math.floor(Math.random() * maxY));
+            
+            noBtn.style.position = "fixed";
+            noBtn.style.left = randomX + "px";
+            noBtn.style.top = randomY + "px";
+        }
+
+        noBtn.addEventListener('mouseover', moveNoButton);
+        noBtn.addEventListener('touchstart', (e) => {
+            e.preventDefault(); // Prevents clicking it on mobile
+            moveNoButton();
         });
 
         // 3. YES BUTTON LOGIC
         yesBtn.addEventListener('click', () => {
             question.classList.add('hidden');
             btnGroup.classList.add('hidden');
-            noBtn.classList.add('hidden'); // Ensure NO disappears
+            noBtn.style.display = 'none';
             finalMsg.classList.remove('hidden');
-            // Change to a celebrating cat
-            catImg.src = "https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Smilies/Smiling%20Cat%20with%20Heart-Eyes.png";
+            // Final celebration image
+            catImg.src = "https://api.iconify.design/noto:party-popper.svg";
         });
     </script>
 </body>
