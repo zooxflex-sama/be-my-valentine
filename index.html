@@ -15,7 +15,7 @@
             height: 100vh;
             margin: 0;
             overflow: hidden;
-            touch-action: manipulation; /* Prevents zooming on mobile button taps */
+            touch-action: manipulation;
         }
         @keyframes pulse {
             0% { transform: scale(1); }
@@ -26,77 +26,75 @@
 
         /* ENVELOPE SCREEN */
         #envelope-container { text-align: center; cursor: pointer; padding: 20px; }
-        #envelope { width: 150px; animation: pulse 1.5s infinite ease-in-out; }
+        #envelope { width: 140px; animation: pulse 1.5s infinite ease-in-out; }
 
         /* LETTER WINDOW */
         .letter-window {
             background: white;
-            padding: 20px;
-            border-radius: 20px;
+            padding: 25px;
+            border-radius: 25px;
             border: 6px solid #ff4d6d;
             text-align: center;
             box-shadow: 0 8px 0 #ff4d6d;
-            width: 85vw; /* Responsive width for mobile */
+            width: 85vw;
             max-width: 350px;
             position: relative;
         }
 
+        /* Static Cute Cat Pics */
         #cat-img { 
-            width: 100%; 
-            max-width: 200px; 
-            height: auto; 
+            width: 160px; 
+            height: 160px; 
             margin: 10px 0; 
         }
 
-        h1 { font-size: 1.5rem; color: #333; }
+        h1 { font-size: 1.4rem; color: #333; margin-bottom: 10px; }
 
         /* BUTTONS */
         .button-group { 
             display: flex; 
             justify-content: center; 
-            align-items: center;
             gap: 15px; 
-            margin-top: 20px;
+            margin-top: 15px;
             min-height: 60px;
         }
 
         button {
             font-family: 'Pixelify Sans', sans-serif;
             font-size: 1.2rem;
-            padding: 12px 25px;
+            padding: 10px 25px;
             cursor: pointer;
             border: none;
-            border-radius: 12px;
+            border-radius: 15px;
             z-index: 10;
         }
 
         #yes-btn { 
-            background-color: #4CAF50; 
+            background-color: #ff4d6d; 
             color: white; 
-            position: relative; /* Fixed in place */
+            position: relative; 
         }
 
         #no-btn { 
-            background-color: #f44336; 
+            background-color: #a0a0a0; 
             color: white; 
-            position: absolute; /* Allows it to move */
-            transition: all 0.15s ease-out;
-            white-space: nowrap;
+            position: absolute; 
+            transition: all 0.1s ease-out;
         }
     </style>
 </head>
 <body>
 
     <div id="envelope-container">
-        <img src="https://api.iconify.design/noto:love-letter.svg" id="envelope">
-        <p>A message for you...<br><b>Tap to open</b></p>
+        <img src="https://openmoji.org/data/color/svg/1F48C.svg" id="envelope">
+        <p>A secret letter for you...<br><b>(Tap to open)</b></p>
     </div>
 
     <div id="letter-container" class="hidden">
         <div class="letter-window">
             <h1 id="question">Keshie! Will you be my Valentine?</h1>
             
-            <img id="cat-img" src="https://api.iconify.design/noto:smiling-cat-with-heart-eyes.svg">
+            <img id="cat-img" src="https://openmoji.org/data/color/svg/1F63B.svg" alt="Cute Heart Cat">
             
             <div class="button-group">
                 <button id="yes-btn">YES</button>
@@ -104,7 +102,7 @@
             </div>
 
             <div id="final-message" class="hidden">
-                <h2 style="color: #ff4d6d;">Yippie! ❤️<br>See you at 6:00 PM, at Hussar Grill or Miyako Sushi(Your Choice!)!</h2>
+                <h2 style="color: #ff4d6d;">Yippie! ❤️<br>See you then at Hussar Grill or Miyako Sushi (Your Choice!)</h2>
             </div>
         </div>
     </div>
@@ -124,20 +122,20 @@
             env.style.display = 'none';
             letCont.classList.remove('hidden');
             
-            // Set initial position of NO button next to YES button
+            // Set initial position of NO button next to YES
             const yesRect = yesBtn.getBoundingClientRect();
-            noBtn.style.left = (yesRect.right - letCont.getBoundingClientRect().left + 20) + "px";
-            noBtn.style.top = (yesRect.top - letCont.getBoundingClientRect().top) + "px";
+            const containerRect = letCont.querySelector('.letter-window').getBoundingClientRect();
+            noBtn.style.left = (yesRect.right - containerRect.left + 10) + "px";
+            noBtn.style.top = (yesRect.top - containerRect.top) + "px";
         });
 
-        // 2. RUNAWAY NO BUTTON (Works for Mouse and Touch)
+        // 2. Runaway logic
         function moveNoButton() {
-            // Calculate a random position that stays WITHIN the phone screen
-            const maxX = window.innerWidth - noBtn.offsetWidth - 20;
-            const maxY = window.innerHeight - noBtn.offsetHeight - 20;
+            const maxX = window.innerWidth - noBtn.offsetWidth - 30;
+            const maxY = window.innerHeight - noBtn.offsetHeight - 30;
             
-            const randomX = Math.max(20, Math.floor(Math.random() * maxX));
-            const randomY = Math.max(20, Math.floor(Math.random() * maxY));
+            const randomX = Math.max(30, Math.floor(Math.random() * maxX));
+            const randomY = Math.max(30, Math.floor(Math.random() * maxY));
             
             noBtn.style.position = "fixed";
             noBtn.style.left = randomX + "px";
@@ -146,18 +144,18 @@
 
         noBtn.addEventListener('mouseover', moveNoButton);
         noBtn.addEventListener('touchstart', (e) => {
-            e.preventDefault(); // Prevents clicking it on mobile
+            e.preventDefault();
             moveNoButton();
         });
 
-        // 3. YES BUTTON LOGIC
+        // 3. Yes Logic
         yesBtn.addEventListener('click', () => {
-            question.classList.add('hidden');
-            btnGroup.classList.add('hidden');
+            question.style.display = 'none';
+            btnGroup.style.display = 'none';
             noBtn.style.display = 'none';
             finalMsg.classList.remove('hidden');
-            // Final celebration image
-            catImg.src = "https://api.iconify.design/noto:party-popper.svg";
+            // Change to Second Cute Cat Pic (Kissy Cat)
+            catImg.src = "https://openmoji.org/data/color/svg/1F63D.svg";
         });
     </script>
 </body>
