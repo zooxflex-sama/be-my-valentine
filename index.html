@@ -22,7 +22,7 @@
 
         /* ENVELOPE SCREEN */
         #envelope-container { text-align: center; cursor: pointer; }
-        #envelope-img { width: 150px; animation: pulse 1.5s infinite ease-in-out; }
+        #envelope-img { width: 160px; animation: pulse 1.5s infinite ease-in-out; border-radius: 15px; }
 
         /* LETTER WINDOW */
         .letter-window {
@@ -42,6 +42,7 @@
             height: 200px; 
             object-fit: contain;
             margin: 10px 0; 
+            border-radius: 10px;
         }
 
         h1 { font-size: 1.4rem; color: #333; margin-bottom: 10px; }
@@ -76,15 +77,15 @@
 <body>
 
     <div id="envelope-container">
-        <img src="https://media.tenor.com/9v4M_uK2j30AAAAM/peach-goma.gif" id="envelope-img">
-        <p>A message for you...<br><b>(Tap to open)</b></p>
+        <img src="https://i.imgur.com/vHdf003.gif" id="envelope-img">
+        <p>Keshie, you have a message!<br><b>(Tap to open)</b></p>
     </div>
 
     <div id="letter-container" class="hidden">
         <div class="letter-window">
             <h1 id="question">Keshie! Will you be my Valentine?</h1>
             
-            <img id="cat-gif" src="https://media.tenor.com/cy7634f5H7sAAAAM/peach-goma-heart.gif">
+            <img id="cat-gif" src="https://i.imgur.com/W2oE0vA.gif">
             
             <div class="button-group">
                 <button id="yes-btn">YES</button>
@@ -92,7 +93,7 @@
             </div>
 
             <div id="final-message" class="hidden">
-                <h2 style="color: #ff4d6d;">Yippie! ❤️<br>It's a date! See 6pm @ Hussar Grill or Miyako Sushi (Your Choice!)<br>See you then!</h2>
+                <h2 style="color: #ff4d6d;">Yippie! ❤️<br>It's a date!<br><span style="font-size: 0.9rem;">Hussar Grill or Miyako Sushi? (Your choice!)</span><br>See you at 6pm!</h2>
             </div>
         </div>
     </div>
@@ -105,8 +106,8 @@
         const catGif = document.getElementById('cat-gif');
         const finalMsg = document.getElementById('final-message');
 
-        // PRE-LOAD the celebration GIF so it's instant
-        const happyCat = "https://media.tenor.com/T0_7_T7f1pYAAAAM/mochi-mochi-peach-cat-cat.gif";
+        // New Stable Imgur Link for Happy Cat
+        const happyCat = "https://i.imgur.com/pZ6mI7K.gif";
         const preloader = new Image();
         preloader.src = happyCat;
 
@@ -140,7 +141,7 @@
             document.querySelector('.button-group').style.display = 'none';
             noBtn.style.display = 'none';
             finalMsg.classList.remove('hidden');
-            catGif.src = happyCat; // Instant swap
+            catGif.src = happyCat; 
         });
     </script>
 </body>
