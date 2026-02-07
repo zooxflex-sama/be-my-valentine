@@ -41,16 +41,16 @@
             position: relative;
         }
 
-        /* Static Cute Cat Pics */
+        /* Animated GIFs */
         #cat-img { 
-            width: 160px; 
-            height: 160px; 
+            width: 200px; 
+            height: 200px; 
+            object-fit: contain;
             margin: 10px 0; 
         }
 
         h1 { font-size: 1.4rem; color: #333; margin-bottom: 10px; }
 
-        /* BUTTONS */
         .button-group { 
             display: flex; 
             justify-content: center; 
@@ -69,24 +69,14 @@
             z-index: 10;
         }
 
-        #yes-btn { 
-            background-color: #ff4d6d; 
-            color: white; 
-            position: relative; 
-        }
-
-        #no-btn { 
-            background-color: #a0a0a0; 
-            color: white; 
-            position: absolute; 
-            transition: all 0.1s ease-out;
-        }
+        #yes-btn { background-color: #ff4d6d; color: white; position: relative; }
+        #no-btn { background-color: #a0a0a0; color: white; position: absolute; transition: all 0.1s ease-out; }
     </style>
 </head>
 <body>
 
     <div id="envelope-container">
-        <img src="https://openmoji.org/data/color/svg/1F48C.svg" id="envelope">
+        <img src="https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHpueXp6bm94ZXB6Z3ZueHh6eHh6eHh6eHh6eHh6eHh6eHh6JmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1z/c76IJLufpNUMvULn59/giphy.gif" id="envelope">
         <p>A secret letter for you...<br><b>(Tap to open)</b></p>
     </div>
 
@@ -94,7 +84,7 @@
         <div class="letter-window">
             <h1 id="question">Keshie! Will you be my Valentine?</h1>
             
-            <img id="cat-img" src="https://openmoji.org/data/color/svg/1F63B.svg" alt="Cute Heart Cat">
+            <img id="cat-img" src="https://media.tenor.com/9v4M_uK2j30AAAAM/peach-goma.gif" alt="Cute Cat Asking">
             
             <div class="button-group">
                 <button id="yes-btn">YES</button>
@@ -102,7 +92,7 @@
             </div>
 
             <div id="final-message" class="hidden">
-                <h2 style="color: #ff4d6d;">Yippie! ❤️<br>See you then at Hussar Grill or Miyako Sushi (Your Choice!)</h2>
+                <h2 style="color: #ff4d6d;">Yippie! ❤️<br>See you 6pm at Hussar Grill or Miyako Sushi! Your Choice!</h2>
             </div>
         </div>
     </div>
@@ -117,23 +107,20 @@
         const finalMsg = document.getElementById('final-message');
         const btnGroup = document.querySelector('.button-group');
 
-        // 1. Open Envelope
         env.addEventListener('click', () => {
             env.style.display = 'none';
             letCont.classList.remove('hidden');
             
-            // Set initial position of NO button next to YES
+            // Initial NO button placement
             const yesRect = yesBtn.getBoundingClientRect();
             const containerRect = letCont.querySelector('.letter-window').getBoundingClientRect();
             noBtn.style.left = (yesRect.right - containerRect.left + 10) + "px";
             noBtn.style.top = (yesRect.top - containerRect.top) + "px";
         });
 
-        // 2. Runaway logic
         function moveNoButton() {
             const maxX = window.innerWidth - noBtn.offsetWidth - 30;
             const maxY = window.innerHeight - noBtn.offsetHeight - 30;
-            
             const randomX = Math.max(30, Math.floor(Math.random() * maxX));
             const randomY = Math.max(30, Math.floor(Math.random() * maxY));
             
@@ -148,14 +135,13 @@
             moveNoButton();
         });
 
-        // 3. Yes Logic
         yesBtn.addEventListener('click', () => {
             question.style.display = 'none';
             btnGroup.style.display = 'none';
             noBtn.style.display = 'none';
             finalMsg.classList.remove('hidden');
-            // Change to Second Cute Cat Pic (Kissy Cat)
-            catImg.src = "https://openmoji.org/data/color/svg/1F63D.svg";
+            // Happy Dancing Cat GIF
+            catImg.src = "https://media.tenor.com/9at7_75m998AAAAM/happy-cat.gif";
         });
     </script>
 </body>
