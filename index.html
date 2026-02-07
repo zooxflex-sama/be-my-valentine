@@ -6,51 +6,93 @@
     <title>Surprise! ✨</title>
     <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        body { background-color: #ffdeeb; font-family: 'Pixelify Sans', sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; overflow: hidden; touch-action: manipulation; }
+        body {
+            background-color: #ffdeeb;
+            font-family: 'Pixelify Sans', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+            touch-action: manipulation;
+        }
         .hidden { display: none !important; }
         @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.1); } 100% { transform: scale(1); } }
-        
+
+        /* ENVELOPE SCREEN */
         #envelope-container { text-align: center; cursor: pointer; }
-        .icon { width: 120px; height: 120px; fill: #ff4d6d; animation: pulse 1.5s infinite ease-in-out; }
-        
+        #envelope-img { width: 150px; animation: pulse 1.5s infinite ease-in-out; }
+
+        /* LETTER WINDOW */
         .letter-window {
-            background: white; padding: 25px; border-radius: 25px; border: 6px solid #ff4d6d;
-            text-align: center; box-shadow: 0 8px 0 #ff4d6d; width: 80vw; max-width: 320px; position: relative;
+            background: white;
+            padding: 25px;
+            border-radius: 25px;
+            border: 6px solid #ff4d6d;
+            text-align: center;
+            box-shadow: 0 8px 0 #ff4d6d;
+            width: 85vw;
+            max-width: 350px;
+            position: relative;
         }
-        .cat-icon { width: 150px; height: 150px; margin: 10px auto; display: block; }
-        
-        .button-group { display: flex; justify-content: center; gap: 15px; margin-top: 20px; min-height: 60px; }
-        button { font-family: 'Pixelify Sans', sans-serif; font-size: 1.2rem; padding: 10px 25px; cursor: pointer; border: none; border-radius: 15px; }
-        #yes-btn { background-color: #4CAF50; color: white; position: relative; z-index: 10; }
-        #no-btn { background-color: #f44336; color: white; position: absolute; transition: all 0.1s ease; }
+
+        #cat-gif { 
+            width: 200px; 
+            height: 200px; 
+            object-fit: contain;
+            margin: 10px 0; 
+        }
+
+        h1 { font-size: 1.4rem; color: #333; margin-bottom: 10px; }
+
+        .button-group { 
+            display: flex; 
+            justify-content: center; 
+            gap: 15px; 
+            margin-top: 20px;
+            min-height: 60px;
+        }
+
+        button {
+            font-family: 'Pixelify Sans', sans-serif;
+            font-size: 1.2rem;
+            padding: 10px 25px;
+            cursor: pointer;
+            border: none;
+            border-radius: 15px;
+            z-index: 10;
+        }
+
+        #yes-btn { background-color: #ff4d6d; color: white; position: relative; }
+        #no-btn { 
+            background-color: #a0a0a0; 
+            color: white; 
+            position: absolute; 
+            transition: all 0.1s ease-out;
+        }
     </style>
 </head>
 <body>
 
     <div id="envelope-container">
-        <svg class="icon" viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2zM12 17c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z"/></svg>
+        <img src="https://media.tenor.com/9v4M_uK2j30AAAAM/peach-goma.gif" id="envelope-img">
         <p>A message for you...<br><b>(Tap to open)</b></p>
     </div>
 
     <div id="letter-container" class="hidden">
         <div class="letter-window">
-            <h1 id="question">Will you be my Valentine?</h1>
+            <h1 id="question">Keshie! Will you be my Valentine?</h1>
             
-            <svg id="cat-svg" class="cat-icon" viewBox="0 0 100 100">
-                <circle cx="50" cy="50" r="45" fill="#fce4ec"/>
-                <path d="M30 40 Q30 20 50 40 Q70 20 70 40 Q70 60 50 80 Q30 60 30 40" fill="#ff4d6d"/>
-                <circle cx="40" cy="45" r="3" fill="black"/>
-                <circle cx="60" cy="45" r="3" fill="black"/>
-                <path d="M45 55 Q50 60 55 55" stroke="black" fill="none" stroke-width="2"/>
-            </svg>
-
+            <img id="cat-gif" src="https://media.tenor.com/cy7634f5H7sAAAAM/peach-goma-heart.gif">
+            
             <div class="button-group">
                 <button id="yes-btn">YES</button>
                 <button id="no-btn">NO</button>
             </div>
 
             <div id="final-message" class="hidden">
-                <h2 style="color: #ff4d6d;">Yippie! ❤️<br>It's a date! See 6pm @ Hussar Grill or Miyako Sushi (Your Choice!)</h2>
+                <h2 style="color: #ff4d6d;">Yippie! ❤️<br>It's a date! See 6pm @ Hussar Grill or Miyako Sushi (Your Choice!)<br>See you then!</h2>
             </div>
         </div>
     </div>
@@ -60,14 +102,19 @@
         const letCont = document.getElementById('letter-container');
         const yesBtn = document.getElementById('yes-btn');
         const noBtn = document.getElementById('no-btn');
+        const catGif = document.getElementById('cat-gif');
         const finalMsg = document.getElementById('final-message');
-        const catSvg = document.getElementById('cat-svg');
+
+        // PRE-LOAD the celebration GIF so it's instant
+        const happyCat = "https://media.tenor.com/T0_7_T7f1pYAAAAM/mochi-mochi-peach-cat-cat.gif";
+        const preloader = new Image();
+        preloader.src = happyCat;
 
         env.addEventListener('click', () => {
             env.style.display = 'none';
             letCont.classList.remove('hidden');
             
-            // Initial positioning
+            // Set initial position of NO button
             const yesRect = yesBtn.getBoundingClientRect();
             const winRect = document.querySelector('.letter-window').getBoundingClientRect();
             noBtn.style.left = (yesRect.right - winRect.left + 10) + "px";
@@ -75,8 +122,11 @@
         });
 
         function moveNo() {
-            const x = Math.random() * (window.innerWidth - noBtn.offsetWidth - 40) + 20;
-            const y = Math.random() * (window.innerHeight - noBtn.offsetHeight - 40) + 20;
+            const maxX = window.innerWidth - noBtn.offsetWidth - 30;
+            const maxY = window.innerHeight - noBtn.offsetHeight - 30;
+            const x = Math.max(30, Math.floor(Math.random() * maxX));
+            const y = Math.max(30, Math.floor(Math.random() * maxY));
+            
             noBtn.style.position = "fixed";
             noBtn.style.left = x + "px";
             noBtn.style.top = y + "px";
@@ -90,8 +140,7 @@
             document.querySelector('.button-group').style.display = 'none';
             noBtn.style.display = 'none';
             finalMsg.classList.remove('hidden');
-            // Change cat color to gold for celebration
-            catSvg.querySelector('circle').setAttribute('fill', '#fff9c4');
+            catGif.src = happyCat; // Instant swap
         });
     </script>
 </body>
